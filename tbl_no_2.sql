@@ -27,8 +27,17 @@ ALTER TABLE table_transaction ADD FOREIGN KEY(id_inv) REFERENCES table_inv(invoi
 ALTER TABLE table_transaction ADD FOREIGN KEY(id_product) REFERENCES table_product(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 --join three tables (table_transaction, inv, and product)
-select * from table_transaction inner join table_inv on table_transaction.id_inv = table_inv.invoice
-inner join table_product on table_transaction.id_product = table_product.id
-
-
+select table_transaction.id,
+        table_transaction.id_inv,
+        table_inv.date,
+        table_inv.total,
+        table_product.product_name,
+        table_product.price,
+        table_transaction.qty,
+        table_product.cat_id,
+        table_cat.cat_name
+from table_transaction
+join table_inv on (table_inv.invoice = table_transaction.id_inv)
+join table_product on (table_product.id = table_transaction.id_product)
+join table_cat on (table_product.cat_id = table_cat.id);
 
